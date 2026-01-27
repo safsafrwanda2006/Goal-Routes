@@ -45,7 +45,7 @@ function HomePage() {
 
         <section className="hero">
           <div className="namesection">
-            <h1>GoalRoutes</h1>
+            <h1>GoalRoute</h1>
             <p className="hero-text">
               Turn big goals into clear, manageable steps and track your progress with confidence.
             </p>
@@ -95,7 +95,7 @@ function HomePage() {
         <footer className="footer">
           <h2
           ref={aboutref}
-          >GoalRoutes</h2>
+          >GoalRoute</h2>
           <p>
             Transform your ambitions into reality. Track your growth, celebrate your achievements,
             and stay motivated every step of the way.
@@ -109,7 +109,7 @@ function HomePage() {
           </div>
 
           <p className="footer-note">
-            © 2025 GoalRoutes. All rights reserved. | Developed by
+            © 2025 GoalRoute. All rights reserved. | Developed by
             <a className='Mustafa' href="https://safsafrwanda2006.github.io/Protfolio/" target="_blank"><u>Mustafa Khamis</u></a>
           </p>
         </footer>
