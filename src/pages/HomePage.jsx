@@ -109,8 +109,8 @@ function HomePage() {
           </div>
 
           <p className="footer-note">
-            © 2025 GoalRoute. All rights reserved. | Developed by
-            <a className='Mustafa' href="https://safsafrwanda2006.github.io/Protfolio/" target="_blank"><u>Mustafa Khamis</u></a>
+            © 2025 GoalRoute. All rights reserved. | Developed by.
+            <a className='Mustafa' href="https://safsafrwanda2006.github.io/Protfolio/" target="_blank"> <u>Mustafa Khamis</u></a>
           </p>
         </footer>
 

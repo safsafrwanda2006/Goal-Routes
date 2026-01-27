@@ -129,6 +129,7 @@
   }
   .namesection h1 {
     width: 300px;
+    margin-top: 45px;
     font-size: xx-large;
     align-self: center;
   }
@@ -142,6 +143,7 @@
     margin-right: 0px;
     margin-left: 0px;
     margin-bottom: 5px;
+    margin-top:35vh ;
   }
 
   .namesection p {
@@ -245,5 +247,12 @@
   }
   .first-card{
     font-size: 0px;
+}
+footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 }
