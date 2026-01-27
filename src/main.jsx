@@ -8,7 +8,7 @@ import './i18n.js'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-    <App />
+      <App />
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 )
