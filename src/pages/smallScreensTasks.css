@@ -89,8 +89,13 @@
 
 @media (max-width: 600px) {
   .tasks-container {
-    padding: 100px 3% 1em 3%;
+    padding: 100px 3px 0px 3px;
     gap: 0.5em;
+  }
+  .message{
+    top: 60px;
+    left: 6px;
+    margin-left: 10px;
   }
   .header {
     min-width: 100vw;
@@ -104,7 +109,8 @@
     height: 25px;
   }
   .new-roadmap-btn{
-    margin-bottom: 150px;
+    margin-top: 20px;
+    margin-bottom: 0px;
   }
   .progresspar {
     height: 70px;
@@ -207,10 +213,13 @@
     height: 20px;
   }
   .add-task input {
+    height: 35px;
+    padding: 0px 7px;
     font-size: 14px;
     border-radius: 5px 0px 0px 5px;
   }
   .add-task button {
+    height: 35px;
     font-size: 10px;
     border-radius: 0px 5px 5px 0px;
   }

@@ -129,9 +129,9 @@ function Taskspage() {
               ? (rm.tasksCont || 0) - (rm.completedCont || 0) + 1
               : (rm.tasksCont || 0) - (rm.completedCont || 0) - 1,
 
-            percentage: rm.tasks.find(t => t.id === taskId)?.completed
-              ? Math.round(((rm.completedCont - 1) / rm.tasksCont) * 100)
-              : Math.round(((rm.completedCont + 1) / rm.tasksCont) * 100),
+            // percentage: rm.tasks.find(t => t.id === taskId)?.completed
+            //   ? Math.round(((rm.completedCont - 1) / rm.tasksCont) * 100)
+            //   : Math.round(((rm.completedCont + 1) / rm.tasksCont) * 100),
 
             tasks: rm.tasks.map((task) =>
               task.id === taskId
@@ -416,8 +416,11 @@ function Taskspage() {
                   <img src="rising.png" alt="" />
                   <h1>R</h1>
                 </div>
-                <h3
-                >My Roadmaps</h3>
+                <button className="new-roadmap-btn" onClick={goToNewRoadmap}>
+                  New Roadmap
+                  <img src="livewhite.png" alt="" />
+                </button>
+                <h3 className="my-roadmaps">My Roadmaps</h3>
                 <div className="content-btns">
                   {roadmaps.map((rm) => (
                     <div key={rm.id} className={
@@ -445,10 +448,7 @@ function Taskspage() {
 
 
                 </div>
-                <button className="new-roadmap-btn" onClick={goToNewRoadmap}>
-                  New Roadmap
-                  <img src="plus (1).png" alt="" />
-                </button>
+
 
               </div>
             )}
@@ -648,7 +648,7 @@ function Taskspage() {
 
         <footer className="footer">
           <h2
-          ref={aboutref}
+            ref={aboutref}
           >GoalRoutes</h2>
           <p>
             Transform your ambitions into reality. Track your growth, celebrate your achievements,

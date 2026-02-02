@@ -149,12 +149,14 @@ button:focus{
   margin-left: 0px;
   display: flex;
   text-align: left;
+  color: #FFFFFF;
 }
 .roadmap-name{
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: left;
+  color: #FFFFFF;
   width: 170px;
 }
 .roadmap-name button{
@@ -192,12 +194,19 @@ button:focus{
 }
 .new-roadmap-btn{
   background-color: #276E7F;
+  color: #FFFFFF;
   display: flex;
   align-items: center;
+  justify-content: center;
+  gap: 10px;
   width: 180px;
   margin-left: -17px;
   margin-top: 5px;
   margin-bottom: 100px;
+}
+.new-roadmap-btn img{
+  width: 16px;
+  height: 16px;
 }
 .new-roadmap-btn:hover{
   transform: scale(1.01);
@@ -514,6 +523,7 @@ input[type="checkbox"] {
 }
 .final-btn{
   background-color: #2F8F9D;
+  color: #FFFFFF;
   margin-top: 40px;
   font-size: 18px;
   border-radius: 5px;
