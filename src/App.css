@@ -102,7 +102,7 @@ header {
   /* background:; */
   background-image:
     linear-gradient(90deg, #4fafb82c, #2f8e9dda, #4fafb81f),
-    url("background4.png");
+    url("/background4.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
