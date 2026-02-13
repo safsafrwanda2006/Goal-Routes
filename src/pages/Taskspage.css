@@ -1,43 +1,42 @@
-
-button{
+button {
   border: none;
   outline: none;
 }
-button:focus{
+button:focus {
   outline: none;
   border: none;
 }
-.logo{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    color: #FFFDF9;
-    margin: 0 10px 0 120px;
-    font-size: 13px;
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #fffdf9;
+  margin: 0 10px 0 120px;
+  font-size: 13px;
 }
-.logo:hover{
-   color: #ffcfa0;
-   transform: scale(1.05);
+.logo:hover {
+  color: #ffcfa0;
+  transform: scale(1.05);
 }
 .taskpcontainer {
-    height: 100%;
-    height: 100vh;
-    min-width: 99vw;
+  height: 100%;
+  height: 100vh;
+  min-width: 99vw;
 }
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 0px;
-  background-color: #276E7F;
+  background-color: #276e7f;
   color: white;
   position: absolute;
   top: 0;
   z-index: 0;
 }
 
-.message{
+.message {
   background-color: rgba(2, 255, 2, 0.425);
   border-radius: 8px;
   padding: 0px 30px;
@@ -49,45 +48,45 @@ button:focus{
   right: 20px;
   overflow-y: auto;
   z-index: 10000;
-  animation: messagedis 0.5s ease 0s 1 ;
+  animation: messagedis 0.5s ease 0s 1;
 }
 @keyframes messagedis {
-  from{
-    transform: translateY(-85PX);
-  }to{
-     transform: translateY(0px);
+  from {
+    transform: translateY(-85px);
+  }
+  to {
+    transform: translateY(0px);
   }
 }
-.message button{
-  background-color: rgba(255,255,255,0);
+.message button {
+  background-color: rgba(255, 255, 255, 0);
   width: 20px;
   height: 20px;
 }
-.message img{
+.message img {
   width: 20px;
   height: 20px;
   position: absolute;
   right: 15px;
   top: 25px;
 }
-.message img:hover{
+.message img:hover {
   transform: scale(1.05);
 }
-.tasks-container{
-  background-color: #E6E3DC;
+.tasks-container {
+  background-color: #e6e3dc;
   min-height: 100%;
   padding: 100px 10% 1em 10%;
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-template-rows:auto 1fr;
-  grid-template-areas: 
-  "progress completed on-progress"
-  "tasks tasks tasks"
-  ;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "progress completed on-progress"
+    "tasks tasks tasks";
   gap: 1em;
 }
-.sidpar-btn{
-  background-color: rgba(255,255,255,0);
+.sidpar-btn {
+  background-color: rgba(255, 255, 255, 0);
   height: 40px;
   width: 40px;
   display: flex;
@@ -99,11 +98,11 @@ button:focus{
   z-index: 1000;
   display: flex;
 }
-.sidpar-btn img{
+.sidpar-btn img {
   width: 35px;
   height: 35px;
 }
-.logo-par{
+.logo-par {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -112,67 +111,67 @@ button:focus{
   top: -10px;
   right: 15px;
 }
-.logo-par h1{
+.logo-par h1 {
   font-size: 40px;
-  color: #FFFDF9;
+  color: #fffdf9;
 }
-.sidpar-btn:hover{
-  background-color: rgba(255,255,255,0.1);
+.sidpar-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
-.roadmaps-btns{
-   display: flex;
+.roadmaps-btns {
+  display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
 }
-.roadmaps-btns button{
+.roadmaps-btns button {
   width: 175px;
   margin-top: 5px;
   margin-left: 0px;
   display: flex;
   text-align: left;
-  background-color: rgba(255,255,255,0);
+  background-color: rgba(255, 255, 255, 0);
 }
-.roadmaps-btns button:hover{
-  background-color: #276E7F;
+.roadmaps-btns button:hover {
+  background-color: #276e7f;
 }
-.roadmaps-btns-clicked{
-   display: flex;
+.roadmaps-btns-clicked {
+  display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
 }
-.roadmaps-btns-clicked button{
-  background-color: #276E7F;
+.roadmaps-btns-clicked button {
+  background-color: #276e7f;
   width: 175px;
   margin-top: 5px;
   margin-left: 0px;
   display: flex;
   text-align: left;
-  color: #FFFFFF;
+  color: #ffffff;
 }
-.roadmap-name{
+.roadmap-name {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: left;
-  color: #FFFFFF;
+  color: #ffffff;
   width: 170px;
 }
-.roadmap-name button{
+.roadmap-name button {
   height: 0px;
   width: 20px;
 }
-.roadmap-name h4{
+.roadmap-name h4 {
   flex: 1;
   align-self: center;
   justify-self: end;
 }
-.roadmap-names{
+.roadmap-names {
   flex: 1;
 }
-.completed-true{
-   width: 20px;
+.completed-true {
+  width: 20px;
   height: 20px;
   display: block;
   align-self: center;
@@ -181,20 +180,20 @@ button:focus{
 .completed-false {
   display: none;
 }
-.delete-btn{
-  background-color: rgba(255,255,255,0);
+.delete-btn {
+  background-color: rgba(255, 255, 255, 0);
   border: none;
   outline: none;
 }
-.roadmap-del img{
+.roadmap-del img {
   width: 20px;
   height: 20px;
   align-self: center;
   justify-self: end;
 }
-.new-roadmap-btn{
-  background-color: #276E7F;
-  color: #FFFFFF;
+.new-roadmap-btn {
+  background-color: #276e7f;
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,69 +201,69 @@ button:focus{
   width: 180px;
   margin-left: -17px;
   margin-top: 5px;
-  margin-bottom: 100px;
+  margin-bottom: 10px;
 }
-.new-roadmap-btn img{
+.new-roadmap-btn img {
   width: 16px;
   height: 16px;
 }
-.new-roadmap-btn:hover{
+.new-roadmap-btn:hover {
   transform: scale(1.01);
   background-color: #174450;
 }
-.par{
-  background-color: #2F8F9D;
+.par {
+  background-color: #2f8f9d;
   display: flex;
   flex-direction: column;
   align-items: start;
   width: 150px;
   height: 100vh;
   overflow: hidden;
-  position:absolute;
+  position: absolute;
   left: 0px;
   top: 0px;
   align-self: flex-start;
   padding: 70px 35px 50px 35px;
 }
-.content-btns{
+.content-btns {
   overflow-y: auto;
-  flex:1;
+  flex: 1;
   width: 200px;
   margin-left: -15px;
 }
-.content-btns::-webkit-scrollbar{
+.content-btns::-webkit-scrollbar {
   width: 12px;
 }
-.content-btns::-webkit-scrollbar-track{
-  background-color: rgba(255,255,255,0);
+.content-btns::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0);
   height: 100vh;
 }
-.content-btns::-webkit-scrollbar-thumb{
+.content-btns::-webkit-scrollbar-thumb {
   background-color: #0e6b83;
   border-radius: 6px;
 }
-.content-btns::-webkit-scrollbar-thumb:hover{
+.content-btns::-webkit-scrollbar-thumb:hover {
   background-color: #0c4655;
   border-radius: 6px;
 }
 
 .progresspar {
-  background-color: #FFFDF9;
-  border: 1px solid #E6E3DC;
-  color: #F4A261;
+  background-color: #fffdf9;
+  border: 1px solid #e6e3dc;
+  color: #f4a261;
   border-radius: 14px;
   padding: 25px 10px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 60px;
 }
-.progresspar img{
+.progresspar img {
   height: 80px;
   width: 80px;
 }
-.progress-percentage{
+.progress-percentage {
   display: flex;
   flex-direction: row;
   align-items: last baseline;
@@ -272,48 +271,48 @@ button:focus{
   width: 150px;
   height: 100px;
 }
-.progress-percentage h1{
+.progress-percentage h1 {
   color: rgb(52, 160, 10);
 }
-.progress-percentage h3{
-  color:#F4A261;
+.progress-percentage h3 {
+  color: #f4a261;
 }
-.progress{
+.progress {
   grid-area: progress;
 }
-.completed{
+.completed {
   grid-area: completed;
 }
-.on-progress{
+.on-progress {
   grid-area: on-progress;
 }
-.tasks-manager{
-  background-color: #FFFDF9;
-  border: 1px solid #E6E3DC;
-  color: #276E7F;
+.tasks-manager {
+  background-color: #fffdf9;
+  border: 1px solid #e6e3dc;
+  color: #276e7f;
   min-height: 220px;
   border-radius: 14px;
   padding: 0px 8% 60px 8%;
   display: flex;
   flex-direction: column;
-  gap: .5em 0em;
+  gap: 0.5em 0em;
   grid-area: tasks;
 }
-.task{
+.task {
   height: 60px;
-  border-left: 3px solid #F4A261;
+  border-left: 3px solid #f4a261;
   border-radius: 10px;
-  background-color:#ff66001c;
+  background-color: #ff66001c;
   padding: 5px 30px;
   color: black;
   display: flex;
   align-items: center;
   justify-content: stretch;
 }
-.task h3{
+.task h3 {
   flex: 1;
 }
-.task-del{
+.task-del {
   width: 40px;
   height: 40px;
   margin: 5px;
@@ -321,43 +320,43 @@ button:focus{
   align-items: center;
   justify-content: center;
 }
-.task-del:hover{
+.task-del:hover {
   transform: scale(1.05);
 }
-.task-del img{
+.task-del img {
   width: 35px;
   height: 35px;
 }
-.completed-task{
-   height: 60px;
-   border-radius: 10px;
-   background-color: rgba(0, 255, 0, 0.281);
-   border-left: 3px solid green;
-   padding: 5px 30px;
+.completed-task {
+  height: 60px;
+  border-radius: 10px;
+  background-color: rgba(0, 255, 0, 0.281);
+  border-left: 3px solid green;
+  padding: 5px 30px;
   color: black;
   display: flex;
   align-items: center;
   justify-content: stretch;
   z-index: 1000;
 }
-.completed-task h3{
+.completed-task h3 {
   flex: 1;
 }
-.task-check-btn{
+.task-check-btn {
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: #FFFDF9;
-  color: #276E7F;
+  background-color: #fffdf9;
+  color: #276e7f;
   border: 0.1px solid #a5eaf5;
   outline: none;
 }
-.task-check-btn:focus{
+.task-check-btn:focus {
   border: none;
   outline: none;
 }
-.img-btn{
-  border: 2px solid #276E7F;
+.img-btn {
+  border: 2px solid #276e7f;
   width: 50px;
   height: 20px;
   border-radius: 5px;
@@ -365,13 +364,13 @@ button:focus{
   align-items: end;
   justify-content: center;
 }
-.img-btn img{
+.img-btn img {
   width: 30px;
   height: 30px;
   display: none;
 }
-.img-btn-completed{
-  border: 2px solid #276E7F;
+.img-btn-completed {
+  border: 2px solid #276e7f;
   width: 50px;
   height: 20px;
   border-radius: 5px;
@@ -379,14 +378,14 @@ button:focus{
   align-items: end;
   justify-content: center;
 }
-.img-btn-completed img{
+.img-btn-completed img {
   width: 30px;
   height: 30px;
   display: block;
 }
 
-.arrow-btn{
-  background-color: rgba(255,255,255,0);
+.arrow-btn {
+  background-color: rgba(255, 255, 255, 0);
   width: 30px;
   display: flex;
   justify-content: center;
@@ -394,57 +393,57 @@ button:focus{
   border-radius: 50%;
   margin-right: 10px;
 }
-.arrow-btn img{
-   width: 20px;
-  height: 20px; 
+.arrow-btn img {
+  width: 20px;
+  height: 20px;
 }
-.arrow-btn:hover{
+.arrow-btn:hover {
   transform: scale(1.05);
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
-.arrow-btn.view-subs{
+.arrow-btn.view-subs {
   transform: rotate(90deg);
 }
 
-.sub-tasks li{
-  background-color:#ff66002a ;
+.sub-tasks li {
+  background-color: #ff66002a;
   margin: 10px;
-  font-weight:700;
+  font-weight: 700;
   padding: 5px 10px;
   max-width: 35%;
   border-radius: 5px;
   display: flex;
   align-items: center;
 }
-.subtask-del{
+.subtask-del {
   width: 20px;
   height: 20px;
   display: flex;
   align-items: center;
   justify-self: end;
 }
-.subtask-del img{
+.subtask-del img {
   width: 20px;
   height: 20px;
 }
-.sub-task-name{
+.sub-task-name {
   flex: 1;
 }
 input[type="checkbox"] {
-  transform: scale(1.5); 
+  transform: scale(1.5);
   cursor: pointer;
 }
-.sub-tasks{
+.sub-tasks {
   font-size: 20px;
 }
-.new-sub-task{
+.new-sub-task {
   display: flex;
 }
-.new-sub-task li{
+.new-sub-task li {
   display: flex;
   align-items: center;
 }
-.new-sub-task input{
+.new-sub-task input {
   padding: 5px;
   font-size: 20px;
   height: 25px;
@@ -452,10 +451,10 @@ input[type="checkbox"] {
   border: none;
   outline: none;
   color: black;
-  border-radius:8px 0px 0px 8px;
+  border-radius: 8px 0px 0px 8px;
 }
-.new-sub-task button{
-  background-color: #2F8F9D;
+.new-sub-task button {
+  background-color: #2f8f9d;
   width: 20px;
   height: 35px;
   border-radius: 0px 8px 8px 0px;
@@ -463,10 +462,10 @@ input[type="checkbox"] {
   align-items: center;
   justify-content: center;
 }
-.new-sub-task button:hover{
-  background-color: #276E7F;
+.new-sub-task button:hover {
+  background-color: #276e7f;
 }
-.name-Input{
+.name-Input {
   background-color: white;
   border: 3px solid #fcbc89;
   width: 50%;
@@ -478,11 +477,11 @@ input[type="checkbox"] {
   justify-content: stretch;
   justify-self: center;
 }
-.new-roadmap h1{
+.new-roadmap h1 {
   display: flex;
   justify-self: center;
 }
-.name-Input input{
+.name-Input input {
   background-color: white;
   color: black;
   font-size: 20px;
@@ -491,18 +490,18 @@ input[type="checkbox"] {
   outline: none;
   flex: 1;
 }
-.name-Input button{
-  background-color:#F4A261 ;
+.name-Input button {
+  background-color: #f4a261;
   justify-self: flex-end;
   border-radius: 0px 5px 5px 0px;
   height: 100%;
   border: none;
   outline: none;
 }
-.name-Input button:hover{
+.name-Input button:hover {
   background-color: #ff8b2b;
 }
-.add-task input{
+.add-task input {
   font-size: 18px;
   background-color: #f4a36148;
   padding: 10px;
@@ -510,34 +509,34 @@ input[type="checkbox"] {
   border: none;
   outline: none;
   border-radius: 10px 0px 0px 10px;
-  flex:1;
+  flex: 1;
 }
-.add-task button{
+.add-task button {
   border: none;
   outline: none;
   background-color: #ff8b2b;
   border-radius: 0px 10px 10px 0px;
 }
-.add-task button:hover{
-  background-color: #F4A261;
+.add-task button:hover {
+  background-color: #f4a261;
 }
-.final-btn{
-  background-color: #2F8F9D;
-  color: #FFFFFF;
+.final-btn {
+  background-color: #2f8f9d;
+  color: #ffffff;
   margin-top: 40px;
   font-size: 18px;
   border-radius: 5px;
   border: none;
   outline: none;
 }
-.final-btn:hover{
-  background-color: #276E7F;
+.final-btn:hover {
+  background-color: #276e7f;
 }
-.final-btn:focus{
+.final-btn:focus {
   outline: none;
 }
 .footer {
-  background-color: #276E7F;
+  background-color: #276e7f;
   color: white;
   padding: 40px 20px;
   display: flex;
