@@ -9,11 +9,53 @@ input, button:focus{
     align-items: center;
     background:linear-gradient(
         135deg,
-        #2F8F9D 0%,
-        #4FB0B8 45%,
-        #A0D7DA 100%
+        #2f8e9d3d 0%,
+        #4fafb854 45%,
+        #175f634b 100%
+    ),
+    url(/background4.png);
+    background-size: cover;
+    background-position: center;
+}  
+.login-header{
+    background: linear-gradient(180deg,
+    #033a47,rgba(255,255,255,0)
     );
-}   
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+} 
+.back-btn{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.back-btn img{
+   width: 25px;
+   height: 25px;
+}
+.back-btn img:hover{
+    transform: scale(1.05);
+}
+.logo-login{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.logo-login:hover{
+    color: antiquewhite;
+}
 form {
     display: flex;
     flex-direction: column;
@@ -57,6 +99,9 @@ button:hover {
     }
     input{
         font-size: 12px;
+    }
+    .name-register input{
+        max-width: 100px;
     }
     
 } 

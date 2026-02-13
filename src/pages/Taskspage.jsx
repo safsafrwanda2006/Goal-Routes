@@ -402,7 +402,7 @@ function Taskspage() {
               }}
               className="sidpar-btn"
             >
-              <img src="sidebar (1).png" alt="" />
+              <img src="menu.png" alt="" />
             </button>
             {sidPar && (
               <div
