@@ -101,10 +101,10 @@ function HomePage() {
             <a href="http://wa.me/250794101251" target="_blank">
               <img src="whatsapp.png" alt="WhatsApp" />
             </a>
-            <a href="https://github.com/safsafrwanda2006">
+            <a href="https://www.facebook.com/mustfa.khamis.2025/">
               <img src="facebook.png" alt="GitHub" />
             </a>
-            <a href="https://www.linkedin.com/in/mustafa-hassan-b26ab5370/">
+            <a href="https://www.instagram.com/safsaf3469/">
               <img src="instgram.png" alt="LinkedIn" />
             </a>
           </div>
