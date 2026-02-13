@@ -130,132 +130,28 @@
   .namesection h1 {
     position: absolute;
     top: 50px;
-    left: 10px;
-    width: 300px;
+
+    width: auto;
     margin-top: 45px;
+    margin-left: 5%;
+    margin-right: 5%;
     font-size: xx-large;
     align-self: center;
+    justify-self: center;
   }
   .getstarted {
     position: absolute;
     bottom: 20px;
-    align-self: flex-end;
-    justify-self: center;
+    
     width: 90%;
     border-radius: 50px;
     font-weight: 700;
     gap: 50px;
-    margin-right: 0px;
-    margin-left: 0px;
-    margin-bottom: 5px;
-    margin-top:60px;
+    color: #FFFFFF;
   }
 
-  .namesection p {
-    flex: 1;
-    opacity: 0;
-  }
-  .animationsec {
-    position: absolute;
-    top: 135px;
-    bottom: 20vw;
-    overflow: hidden;
-    min-width: 96vw;
-    margin-left: 0px;
-    margin-top: 0px;
-    height: 60%;
-    padding:0px 2vw;
-    padding-bottom: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  .cards-stack {
-    overflow-x: auto;
-    height:350px;
-    width: 90%;
-    border: 3px solid #276d7f69;
-    border-top: 3px solid rgba(255,255,255,0);
-    border-bottom: 3px solid rgba(255,255,255,0);
-    perspective: 0px;
-    transform-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0px;
-    padding: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-top: 0px;
-    padding-bottom: 5px;
-  }
-  .card {
-    position: relative;
-    flex: 1;
-    margin: 0px 0px 0px 0px;
-    margin-bottom: 0px;
-    margin-top: 0px;
-    margin-right: 0px;
-    height: 330px;
-  }
-  .space{
-    min-width: 500px;
-    min-height: 200px;
-  }
- 
-  .space h1{
-      width: 350px;
-  }
-  .cards-stack::-webkit-scrollbar{
-    display: none;
-  }
-  .card1 {
-    min-width: 250px;
-    transition: all ease 0.3s;
-    transform: translateX(0px) rotateY(0deg) translateZ(0px) scale(0.9);
-  }
-  .card1 h1{
-    font-size: 40px;
-    
-  }
-  .card1:hover {
-    width: 400px;
-    transition: all ease 0.3s;
-    transform: translateX(0px) rotateY(0deg) translateZ(0px) scale(0.9);
-  }
-  .card2 {
-    min-width: 250px;
-    transition: all ease 0.3s;
-    transform: translateZ(0px) scale(0.9);
-  }
-   .card2 h1{
-    font-size: 30px;
-    
-  }
-  .card2:hover {
-    transition: all ease 0.3s;
-    transform: translateZ(0px) scale(0.9);
-  }
-  .card3 {
-    min-width: 250px;
-    transition: all ease 0.3s;
-    transform: translateX(0px) rotateY(0deg) translateZ(0px) scale(0.9);
-  }
-   .card3 h1{
-    font-size: 30px;
-    
-  }
-  .card3:hover {
-    transition: all ease 0.3s;
-    transform: translateX(0px) rotateY(0deg) translateZ(0px) scale(0.9);
-  }
-  .icon{
-    padding-top: 30px;
-  }
-  .first-card{
-    font-size: 0px;
-}
+
+
 footer{
   display: flex;
   flex-direction: column;
