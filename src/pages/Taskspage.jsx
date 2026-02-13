@@ -658,8 +658,8 @@ function Taskspage() {
           <div className="social-icons">
             <a href="mailto:safsafrwanda2006@gmail.com"><img src="email.png" alt="Email" /></a>
             <a href="http://wa.me/250794101251" target="_blank"><img src="whatsapp.png" alt="WhatsApp" /></a>
-            <a href="https://github.com/safsafrwanda2006"><img src="facebook.png" alt="GitHub" /></a>
-            <a href="https://www.linkedin.com/in/mustafa-hassan-b26ab5370/"><img src="instgram.png" alt="LinkedIn" /></a>
+            <a href="https://www.facebook.com/mustfa.khamis.2025/"><img src="facebook.png" alt="GitHub" /></a>
+            <a href="https://www.instagram.com/safsaf3469/"><img src="instgram.png" alt="LinkedIn" /></a>
           </div>
 
           <p className="footer-note">
