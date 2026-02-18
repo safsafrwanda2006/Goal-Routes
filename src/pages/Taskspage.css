@@ -1,3 +1,6 @@
+body{
+  overflow-x: hidden;
+}
 button {
   border: none;
   outline: none;
