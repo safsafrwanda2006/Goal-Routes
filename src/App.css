@@ -40,7 +40,7 @@ header {
   align-items: center;
   justify-content: stretch;
   position: absolute;
-  padding: 20px 0px;
+  padding: 40px 0px;
   background: linear-gradient(180deg, #0a5163, rgba(255, 255, 255, 0));
 }
 .logo-home {
@@ -131,7 +131,8 @@ header {
 }
 .hero-text {
   font-size: 23px;
-  width: 450px;
+  width: 100%;
+  max-width: 450px;
   text-align: center;
   color: #ffffff;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.904);

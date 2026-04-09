@@ -104,59 +104,91 @@
 }
 
 @media (max-width: 600px) {
-  .logo-home{
-    margin-left: 20px;
-    font-size: 14px;
+  /* ── Header ─────────────────────────────────────── */
+  .logo-home {
+    margin-left: 16px;
+    font-size: 13px;
   }
-  .menubtns{
-    gap: 0px;
-    margin-right: 5px;
+
+  .menubtns {
+    gap: 4px;
+    margin-right: 8px;
   }
-  .menubtns h4{
+
+  .menubtns h4 {
     display: none;
   }
+
+  /* ── Hero section ────────────────────────────────── */
   .namesection {
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    padding: 100px 0px 150px 0px;
-    margin-left: 0px;
-    margin-top: 40px;
     width: 100%;
-    min-width: 96vw;
+    min-width: unset;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 90px 24px 120px;
+    margin: 0;
+    gap: 18px;
   }
+
+  /* ── H1 hero headline ────────────────────────────── */
   .namesection h1 {
-    position: absolute;
-    top: 50px;
-
-    width: auto;
-    margin-top: 45px;
-    margin-left: 5%;
-    margin-right: 5%;
-    font-size: xx-large;
-    align-self: center;
-    justify-self: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    font-size: clamp(1.7rem, 7.5vw, 2.2rem);
+    line-height: 1.25;
+    letter-spacing: -0.3px;
+    text-align: center;
+    text-shadow: 0px 3px 12px rgba(0, 0, 0, 0.55);
+    /* subtle gradient on the headline text */
+    background: linear-gradient(160deg, #ffffff 40%, #b8eaf5 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
+  .namesection p{
+    font-size: 19px;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* ── Paragraph / sub-headline ────────────────────── */
+  .hero-text {
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(0.9rem, 4vw, 1.05rem);
+    line-height: 1.65;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.88);
+    text-shadow: 0px 1px 6px rgba(0, 0, 0, 0.45);
+    margin: 0;
+    /* no fixed width — let it breathe */
+  }
+
+  /* ── CTA button ──────────────────────────────────── */
   .getstarted {
-    position: absolute;
-    bottom: 20px;
-    
-    width: 90%;
+    width: 88%;
+    max-width: 320px;
     border-radius: 50px;
+    font-size: 17px;
     font-weight: 700;
-    gap: 50px;
-    color: #FFFFFF;
+    padding: 14px 24px;
+    gap: 12px;
+    color: #ffffff;
+    margin-top: 6px;
   }
 
-
-
-footer{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
+  /* ── Footer ──────────────────────────────────────── */
+  footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 20px;
+  }
 }

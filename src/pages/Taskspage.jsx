@@ -1,213 +1,190 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Taskspage.css";
-import './smallScreensTasks.css'
+import "./smallScreensTasks.css";
 
 function Taskspage() {
-  const aboutref = useRef(null);
+  const navigate = useNavigate();
+  const prevRoadmapsRef = useRef();
+
   const [newRoadmap, setNewRoadmap] = useState(true);
-  const [viewRoadmap, setViewRoadmap] = useState(true);
+  const [viewRoadmap, setViewRoadmap] = useState(false);
   const [roadmaps, setRoadmaps] = useState([]);
   const [currentRoadmapId, setCurrentRoadmapId] = useState(null);
   const [roadmapName, setRoadmapName] = useState("");
   const [taskInput, setTaskInput] = useState("");
   const [subTaskInput, setSubTaskInput] = useState("");
-  const [viewProgressPars, setviewProgressPars] = useState(false);
   const [sidPar, setSidPar] = useState(false);
   const [multiple, setMultiple] = useState([]);
   const [message, setMessage] = useState(false);
 
+  // New State variables
+  const [userProfile, setUserProfile] = useState({});
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [profileImageFile, setProfileImageFile] = useState(null);
+
+  const [pendingShares, setPendingShares] = useState([]);
+  const [showInvitesModal, setShowInvitesModal] = useState(false);
+
+  const [shareEmail, setShareEmail] = useState("");
+  const [showShareModal, setShowShareModal] = useState(false);
+
   useEffect(() => {
-    const savedRoadmaps = localStorage.getItem("roadmaps");
-    if (savedRoadmaps) {
-      setRoadmaps(JSON.parse(savedRoadmaps));
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      navigate("/login");
+      return;
     }
-  }, []);
+
+    // Fetch Roadmaps
+    axios.get(`http://localhost:8080/roadmaps/${userId}`)
+      .then(res => {
+        if (res.data) setRoadmaps(res.data);
+      })
+      .catch(err => console.error("Failed to fetch roadmaps", err));
+
+    // Fetch User Profile
+    axios.get(`http://localhost:8080/users/${userId}`)
+      .then(res => setUserProfile(res.data))
+      .catch(err => console.error("Failed to fetch profile", err));
+
+    // Fetch Pending Shares
+    axios.get(`http://localhost:8080/roadmaps/shared/${userId}`)
+      .then(res => setPendingShares(res.data))
+      .catch(err => console.error("Failed to fetch shares", err));
+  }, [navigate]);
 
   useEffect(() => {
     if (roadmaps.length > 0) {
       localStorage.setItem("roadmaps", JSON.stringify(roadmaps));
+      if (prevRoadmapsRef.current && roadmaps !== prevRoadmapsRef.current) {
+        roadmaps.forEach(rm => {
+          const prevRm = prevRoadmapsRef.current.find(p => p.id === rm.id);
+          if (prevRm && JSON.stringify(rm) !== JSON.stringify(prevRm)) {
+            axios.put(`http://localhost:8080/roadmaps/${rm.id}`, rm).catch(err => console.error("Update failed", err));
+          }
+        });
+      }
     }
+    prevRoadmapsRef.current = roadmaps;
   }, [roadmaps]);
 
   const currentRoadmap = roadmaps.find((rm) => rm.id === currentRoadmapId);
 
+  const recalcRoadmap = (rm) => {
+    let totalItems = 0;
+    let completedItems = 0;
+    rm.tasks.forEach(task => {
+      totalItems++;
+      if (task.completed) completedItems++;
+      task.subtasks.forEach(sub => {
+        totalItems++;
+        if (sub.completed) completedItems++;
+      });
+    });
+    return {
+      ...rm,
+      percentage: totalItems === 0 ? 0 : Math.round((completedItems / totalItems) * 100),
+      tasksCont: rm.tasks.length,
+      completedCont: rm.tasks.filter(t => t.completed).length,
+      onProgress: rm.tasks.filter(t => !t.completed).length
+    };
+  };
 
-  //   sample of data
-  //   const currentRoadmap2 = {
-  //   id: "temp-1",
-  //   name: "Become a Frontend Developer",
-  //   tasksCont: 3,
-  //   completedCont: 1,
-  //   onProgress: 2,
-  //   percentage: 33,
-  //   completed: false,
-  //   tasks: [
-  //     {
-  //       id: "task-1",
-  //       name: "Learn HTML & CSS",
-  //       completed: true,
-  //       total: 2,
-  //       subCompletedCount: 1,
-  //       subtasks: [
-  //         { id: "sub-1", name: "HTML Basics", completed: true },
-  //         { id: "sub-2", name: "CSS Flexbox", completed: false },
-  //       ],
-  //     },
-  //     {
-  //       id: "task-2",
-  //       name: "Learn JavaScript",
-  //       completed: false,
-  //       total: 3,
-  //       subCompletedCount: 1,
-  //       subtasks: [
-  //         { id: "sub-3", name: "Variables & Types", completed: true },
-  //         { id: "sub-4", name: "Functions", completed: false },
-  //         { id: "sub-5", name: "DOM Manipulation", completed: false },
-  //       ],
-  //     },
-  //     {
-  //       id: "task-3",
-  //       name: "Learn React",
-  //       completed: false,
-  //       total: 2,
-  //       subCompletedCount: 0,
-  //       subtasks: [
-  //         { id: "sub-6", name: "Components & Props", completed: false },
-  //         { id: "sub-7", name: "useState & useEffect", completed: false },
-  //       ],
-  //     },
-  //   ],
-  // };
-
-
-
-
-
-  function viewabout() {
-    const target = aboutref.current;
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+  const handleProfileUpload = async () => {
+    if (!profileImageFile) return;
+    const userId = localStorage.getItem("userId");
+    const formData = new FormData();
+    formData.append("image", profileImageFile);
+    try {
+      const res = await axios.post(`http://localhost:8080/users/${userId}/image`, formData);
+      setUserProfile(prev => ({ ...prev, profile_image: res.data.profile_image }));
+      setShowProfileModal(false);
+    } catch (e) {
+      console.error("Upload error", e);
+      alert("Failed to upload image");
     }
-  }
+  };
+
+  const handleShareRoadmap = async () => {
+    if (!shareEmail) return;
+    const userId = localStorage.getItem("userId");
+    try {
+      await axios.post("http://localhost:8080/roadmaps/share", {
+        roadmapId: currentRoadmapId,
+        senderId: userId,
+        receiverEmail: shareEmail
+      });
+      alert("Invite sent successfully!");
+      setShowShareModal(false);
+      setShareEmail("");
+    } catch (e) {
+      console.error("Error sending invite", e);
+      alert("Error sending invite");
+    }
+  };
+
+  const acceptShare = async (shareId) => {
+    const userId = localStorage.getItem("userId");
+    try {
+      await axios.post(`http://localhost:8080/roadmaps/shared/${shareId}/accept`, { userId });
+      alert("Imported Roadmap Successfully!");
+      setPendingShares(prev => prev.filter(s => s.share_id !== shareId));
+      const freshRes = await axios.get(`http://localhost:8080/roadmaps/${userId}`);
+      setRoadmaps(freshRes.data);
+    } catch (e) {
+      console.error(e);
+      alert("Failed to accept shared roadmap.");
+    }
+  };
 
   function viewSubTasks(taskId) {
     let cpyMultiple = [...multiple];
-    const findIndexOfCurrent = cpyMultiple.indexOf(taskId);
-
-    if (findIndexOfCurrent === -1) {
-      cpyMultiple.push(taskId);
-    } else {
-      cpyMultiple.splice(findIndexOfCurrent, 1);
-    }
+    const index = cpyMultiple.indexOf(taskId);
+    if (index === -1) cpyMultiple.push(taskId);
+    else cpyMultiple.splice(index, 1);
     setMultiple(cpyMultiple);
   }
 
   function RoadmapDone(id) {
-    setRoadmaps(prev =>
-      prev.map(rm =>
-        rm.id === id
-          ? { ...rm, completed: true }
-          : rm
-      )
-    );
+    setRoadmaps((prev) => prev.map((rm) => (rm.id === id ? { ...rm, completed: true } : rm)));
     setMessage(true);
   }
 
-
   function taskCompleted(taskId) {
-    setRoadmaps((prev) =>
-      prev.map((rm) =>
-        rm.id !== currentRoadmapId
-          ? rm
-          : {
-            ...rm,
-            completedCont: rm.tasks.find(t => t.id === taskId)?.completed
-              ? (rm.completedCont || 0) - 1
-              : (rm.completedCont || 0) + 1,
-            onProgress: rm.tasks.find(t => t.id === taskId)?.completed
-              ? (rm.tasksCont || 0) - (rm.completedCont || 0) + 1
-              : (rm.tasksCont || 0) - (rm.completedCont || 0) - 1,
-
-            // percentage: rm.tasks.find(t => t.id === taskId)?.completed
-            //   ? Math.round(((rm.completedCont - 1) / rm.tasksCont) * 100)
-            //   : Math.round(((rm.completedCont + 1) / rm.tasksCont) * 100),
-
-            tasks: rm.tasks.map((task) =>
-              task.id === taskId
-                ? { ...task, completed: !task.completed }
-                : task,
-            ),
-          },
-      ),
-    );
+    setRoadmaps((prev) => prev.map((rm) => {
+      if (rm.id !== currentRoadmapId) return rm;
+      const updatedTasks = rm.tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
+      return recalcRoadmap({ ...rm, tasks: updatedTasks });
+    }));
   }
+
   function subtaskCompleted(taskId, subTaskId) {
-    setRoadmaps((prev) =>
-      prev.map((rm) => {
-        if (rm.id !== currentRoadmapId) return rm;
-
-        let totalSubtasks = 0;
-        let completedSubtasks = 0;
-
-        rm.tasks.forEach((t) => {
-          totalSubtasks += t.total || 0;
-          completedSubtasks += t.subCompletedCount || 0;
-        });
-
-        const isCompleted =
-          rm.tasks
-            .find(t => t.id === taskId)
-            ?.subtasks.find(s => s.id === subTaskId)
-            ?.completed;
-
-        const newCompletedSubtasks = isCompleted
-          ? completedSubtasks - 1
-          : completedSubtasks + 1;
-
-        return {
-          ...rm,
-
-          percentage:
-            totalSubtasks === 0
-              ? 0
-              : Math.round((newCompletedSubtasks / totalSubtasks) * 100),
-
-          tasks: rm.tasks.map((task) =>
-            task.id === taskId
-              ? {
-                ...task,
-                subCompletedCount: isCompleted
-                  ? task.subCompletedCount - 1
-                  : task.subCompletedCount + 1,
-                subtasks: task.subtasks.map((sub) =>
-                  sub.id === subTaskId
-                    ? { ...sub, completed: !sub.completed }
-                    : sub
-                ),
-              }
-              : task
-          ),
-        };
-      })
-    );
+    setRoadmaps((prev) => prev.map((rm) => {
+      if (rm.id !== currentRoadmapId) return rm;
+      const updatedTasks = rm.tasks.map(t => t.id === taskId ? {
+        ...t, subtasks: t.subtasks.map(s => s.id === subTaskId ? { ...s, completed: !s.completed } : s)
+      } : t);
+      return recalcRoadmap({ ...rm, tasks: updatedTasks });
+    }));
   }
-
 
   function viewThisRoadmap(id) {
     setCurrentRoadmapId(id);
     setNewRoadmap(false);
     setViewRoadmap(true);
-    setviewProgressPars(true);
   }
 
-  function addroadmap() {
+  async function addroadmap() {
     if (roadmapName.trim() === "") {
       alert("Enter the Roadmap Name");
       return;
     }
+    const userId = localStorage.getItem("userId");
     const newRoadmap = {
       id: crypto.randomUUID(),
+      userId: userId,
       name: roadmapName,
       completed: false,
       tasksCont: 0,
@@ -216,459 +193,293 @@ function Taskspage() {
       percentage: 0,
       tasks: [],
     };
-    setRoadmaps((prev) => [...prev, newRoadmap]);
-    setCurrentRoadmapId(newRoadmap.id);
-    setRoadmapName("");
-    setViewRoadmap(true);
-    setNewRoadmap(false);
-    setviewProgressPars(true);
+    try {
+      await axios.post("http://localhost:8080/roadmaps", newRoadmap);
+      setRoadmaps((prev) => [...prev, newRoadmap]);
+      setCurrentRoadmapId(newRoadmap.id);
+      setRoadmapName("");
+      setViewRoadmap(true);
+      setNewRoadmap(false);
+    } catch {
+      console.log("Inserting Roadmap error");
+    }
   }
 
-  function deleteRoadmap(currentRoadmapId) {
+  function deleteRoadmap(e, id) {
+    e.stopPropagation();
     if (!window.confirm("Are you sure you want to delete this Roadmap?")) return;
-    setRoadmaps((prev) => {
-      const updatedRoadmaps = prev.filter(
-        (rm => rm.id !== currentRoadmapId)
-      );
-      localStorage.setItem(
-        "roadmaps",
-        JSON.stringify(updatedRoadmaps)
-      )
+    setRoadmaps((prev) => prev.filter((rm) => rm.id !== id));
+    if (currentRoadmapId === id) {
       setNewRoadmap(true);
-      return updatedRoadmaps;
-    });
+      setViewRoadmap(false);
+    }
+    axios.delete(`http://localhost:8080/roadmaps/${id}`).catch(console.error);
   }
-
 
   function addTask() {
     if (taskInput.trim() === "") return;
-
-    setRoadmaps((prev) =>
-      prev.map((rm) =>
-        rm.id === currentRoadmapId
-          ? {
-            ...rm,
-            tasksCont: rm.tasksCont ? rm.tasksCont + 1 : 1,
-            onProgress: rm.onProgress ? rm.onProgress + 1 : 1,
-            tasks: [
-              ...rm.tasks,
-              {
-                id: crypto.randomUUID(),
-                name: taskInput,
-                completed: false,
-                total: 0,
-                subCompletedCount: 0,
-                subtasks: [],
-              },
-            ],
-          }
-          : rm,
-      ),
-    );
+    setRoadmaps((prev) => prev.map((rm) => {
+      if (rm.id !== currentRoadmapId) return rm;
+      const newTask = { id: crypto.randomUUID(), name: taskInput, completed: false, total: 0, subCompletedCount: 0, subtasks: [] };
+      return recalcRoadmap({ ...rm, tasks: [...rm.tasks, newTask] });
+    }));
     setTaskInput("");
   }
 
-
   function deleteTask(taskId) {
-    if (!window.confirm("Are you sure you want to delete this task")) return;
-    setRoadmaps((prev) =>
-      prev.map((rm) =>
-        rm.id !== currentRoadmapId
-          ? rm
-          : {
-            ...rm,
-            tasksCont: rm.tasksCont - 1,
-            onProgress: rm.onProgress ? rm.onProgress - 1 : 1,
-            tasks: rm.tasks
-              .map((task) =>
-                task.id === taskId
-                  ? { ...task, completed: false }
-                  : task
-              )
-              .filter((task) => task.id !== taskId),
-          }
-      )
-    );
+    if (!window.confirm("Are you sure you want to delete this task?")) return;
+    setRoadmaps((prev) => prev.map((rm) => {
+      if (rm.id !== currentRoadmapId) return rm;
+      const updatedTasks = rm.tasks.filter(t => t.id !== taskId);
+      return recalcRoadmap({ ...rm, tasks: updatedTasks });
+    }));
   }
 
   function addSubTask(taskId) {
     if (subTaskInput.trim() === "") return;
-
-    setRoadmaps((prev) =>
-      prev.map((rm) =>
-        rm.id === currentRoadmapId
-          ? {
-            ...rm,
-
-            tasks: rm.tasks.map((task) =>
-              task.id === taskId
-                ? {
-                  ...task,
-                  total: task.total ? task.total + 1 : 1,
-                  subtasks: [
-                    ...task.subtasks,
-                    {
-                      id: crypto.randomUUID(),
-                      name: subTaskInput,
-                      completed: false,
-                    },
-                  ],
-                }
-                : task,
-            ),
-          }
-          : rm,
-      ),
-    );
+    setRoadmaps((prev) => prev.map((rm) => {
+      if (rm.id !== currentRoadmapId) return rm;
+      const newSub = { id: crypto.randomUUID(), name: subTaskInput, completed: false };
+      const updatedTasks = rm.tasks.map(t => t.id === taskId ? { ...t, total: (t.total || 0) + 1, subtasks: [...t.subtasks, newSub] } : t);
+      return recalcRoadmap({ ...rm, tasks: updatedTasks });
+    }));
     setSubTaskInput("");
   }
 
   function deleteSubTask(taskId, subTaskId) {
-    setRoadmaps((prev) =>
-      prev.map((rm) =>
-        rm.id === currentRoadmapId
-          ? {
-            ...rm,
-
-            tasks: rm.tasks.map((task) =>
-              task.id === taskId
-                ? {
-                  ...task,
-                  total: task.total - 1,
-                  subtasks: task.subtasks
-                    .map((sub) =>
-                      sub.id === subTaskId
-                        ? { ...sub, completed: false }
-                        : sub,
-                    )
-                    .filter((sub) => sub.id !== subTaskId)
-                }
-                : task,
-            ),
-          }
-          : rm,
-      ),
-    );
+    setRoadmaps((prev) => prev.map((rm) => {
+      if (rm.id !== currentRoadmapId) return rm;
+      const updatedTasks = rm.tasks.map(t => t.id === taskId ? { ...t, total: (t.total || 1) - 1, subtasks: t.subtasks.filter(s => s.id !== subTaskId) } : t);
+      return recalcRoadmap({ ...rm, tasks: updatedTasks });
+    }));
   }
 
-  function goToNewRoadmap() {
-    setNewRoadmap(true);
-  }
+  const logout = () => {
+    localStorage.removeItem("userId");
+    navigate("/");
+  };
 
   return (
-    <>
-      <div
-        className="taskpcontainer"
-        onClick={() => {
-          setSidPar(false);
-          setMessage(false);
-        }}
-      >
-        <header className="header">
-          <div>
-            <Link className="logo" to="/">
-              <h1>G</h1>
-              <img src="rising.png" alt="" />
-              <h1>R</h1>
-            </Link>
-          </div>
-          <div className="menubtns">
-            <button
-              onClick={goToNewRoadmap}
-            ><h4>start</h4> <img src="shuttle.png" alt="" /></button>
-            {/* <button><h4>languages</h4> <img src="world.png" alt="" /></button> */}
-            <button
-              onClick={viewabout}
-            ><h4>about</h4> <img src="info.png" alt="" /></button>
-          </div>
-        </header>
+    <div className="taskpcontainer" onClick={() => { setSidPar(false); setMessage(false); }}>
 
-        <div className="tasks-container">
-          {message && (
-            <div className="messages">
-              <div className="message">
-                <h3>🔥 Congratulations! You’ve completed your roadmap! Keep the momentum going!</h3>
-                <button
-                  onClick={() => { setMessage(false) }}
-                ><img src="delete (2).png" alt="" /></button>
-              </div>
+      {/* HEADER NAV */}
+      <header className="header-dashboard">
+        <Link className="logo-box" to="/">
+          <div className="logo">
+            <h1>G</h1><img src="/rising.png" alt="" /><h1>R</h1>
+          </div>
+        </Link>
+        <div className="header-actions">
+          <button onClick={() => setShowInvitesModal(true)} className="invite-btn">
+            Notifications ({pendingShares.length})
+          </button>
+          <button onClick={() => setShowProfileModal(true)} className="profile-toggle">
+            {userProfile.profile_image ? (
+              <img src={userProfile.profile_image} className="avatar-small" alt="Profile" />
+            ) : (
+              <div className="avatar-placeholder">{userProfile.firstname?.charAt(0)}</div>
+            )}
+            <span className="profile-name">{userProfile.firstname}</span>
+          </button>
+        </div>
+      </header>
+
+      {/* MODALS */}
+      {showProfileModal && (
+        <div className="modal-overlay" onClick={() => setShowProfileModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>My Profile</h2>
+            <div className="profile-details">
+              {userProfile.profile_image ? (
+                <img src={userProfile.profile_image} className="avatar-large" alt="Profile" />
+              ) : (
+                <div className="avatar-large-placeholder">{userProfile.firstname?.charAt(0)}</div>
+              )}
+              <h3>{userProfile.firstname} {userProfile.lastname}</h3>
+              <p>{userProfile.email}</p>
             </div>
-          )}
-          <div className="sid-par">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setSidPar((prev) => !prev);
-              }}
-              className="sidpar-btn"
-            >
-              <img src="/menu.png" alt="" />
-            </button>
-            {sidPar && (
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                className="par"
-              >
-                <div className="logo-par">
-                  <h1>G</h1>
-                  <img src="rising.png" alt="" />
-                  <h1>R</h1>
-                </div>
-                <button className="new-roadmap-btn" onClick={goToNewRoadmap}>
-                  New Roadmap
-                  <img src="livewhite.png" alt="" />
-                </button>
-                <h3 className="my-roadmaps">My Roadmaps</h3>
-                <div className="content-btns">
-                  {roadmaps.map((rm) => (
-                    <div key={rm.id} className={
-                      rm.id === currentRoadmapId
-                        ? "roadmaps-btns-clicked"
-                        : "roadmaps-btns"}>
-                      <div>
-                        <button className="roadmap-name"
-                          onClick={() => viewThisRoadmap(rm.id)}>
-                          <div className="roadmap-names">{rm.name}</div>
+            <div className="upload-section">
+              <label>Update Avatar</label>
+              <input type="file" accept="image/*" onChange={(e) => setProfileImageFile(e.target.files[0])} />
+              <button onClick={handleProfileUpload} className="btn-primary">Upload</button>
+            </div>
+            <button onClick={logout} className="logout-btn">Log Out</button>
+            <button onClick={() => setShowProfileModal(false)} className="close-btn">Close</button>
+          </div>
+        </div>
+      )}
 
-                          <img
-                            className={rm.completed
-                              ? "completed-true"
-                              : "completed-false"}
-                            src="completed.png" alt="" />
-                          <button
-                            className="delete-btn roadmap-del"
-                            onClick={() => deleteRoadmap(rm.id)}
-                          ><img src="delete.png" alt="" /></button>
-                        </button>
+      {showInvitesModal && (
+        <div className="modal-overlay" onClick={() => setShowInvitesModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Pending Invites</h2>
+            {pendingShares.length === 0 ? <p>No invites pending.</p> : (
+              <ul className="invites-list">
+                {pendingShares.map(share => (
+                  <li key={share.share_id} className="invite-item">
+                    <div className="invite-sender">
+                      {share.profile_image ? (
+                        <img src={share.profile_image} className="avatar-small" alt="" />
+                      ) : (
+                        <div className="avatar-small-placeholder">{share.firstname?.charAt(0)}</div>
+                      )}
+                      <div>
+                        <b>{share.firstname} {share.lastname}</b>
+                        <p>Shared: "{share.roadmap_name}"</p>
                       </div>
                     </div>
-                  ))}
-
-
-                </div>
-
-
-              </div>
+                    <button onClick={() => acceptShare(share.share_id)} className="btn-success">Accept</button>
+                  </li>
+                ))}
+              </ul>
             )}
+            <button onClick={() => setShowInvitesModal(false)} className="close-btn">Close</button>
           </div>
-          {viewRoadmap && !newRoadmap && (
-            <>
+        </div>
+      )}
 
-              {currentRoadmap && (
-                <>
-                  <>
+      {showShareModal && (
+        <div className="modal-overlay" onClick={() => setShowShareModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Share "{currentRoadmap?.name}"</h2>
+            <input type="email" placeholder="Enter friend's email" value={shareEmail} onChange={e => setShareEmail(e.target.value)} />
+            <button onClick={handleShareRoadmap} className="btn-primary">Send Invite</button>
+            <button onClick={() => setShowShareModal(false)} className="close-btn">Cancel</button>
+          </div>
+        </div>
+      )}
 
-                    {currentRoadmap.tasks.length >= 0 && (
-                      <div className="progresspar progress">
-                        <div className="progress-info">
-                          <h3>Progress</h3>
-                          <div className="progress-percentage percentage-sign">
-                            <h1>
-                              {currentRoadmap.tasks.length === 0
-                                ? "0"
-                                : `${currentRoadmap.percentage}`}
-                            </h1><h3>%</h3>
+      {message && (
+        <div className="messages-banner">
+          <h3>🔥 Congratulations! You’ve completed your roadmap!</h3>
+          <button onClick={() => setMessage(false)}>X</button>
+        </div>
+      )}
+
+      <div className="dashboard-grid">
+        {/* SIDEBAR */}
+        <aside className="sidebar">
+          <div className="sidebar-header">
+            <button type="button" className="new-roadmap-primary" onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setNewRoadmap(true);
+              setViewRoadmap(false);
+            }}>
+              + Create Roadmap
+            </button>
+          </div>
+          <h3 className="sidebar-title">My Roadmaps</h3>
+          <div className="roadmaps-list">
+            {roadmaps.map((rm) => (
+              <div key={rm.id} className={`roadmap-list-item ${rm.id === currentRoadmapId ? 'active' : ''}`} onClick={() => viewThisRoadmap(rm.id)}>
+                <div className="roadmap-title-row">
+                  <span>{rm.name}</span>
+                  {rm.completed && <img src="/completed.png" className="completed-icon" alt="done" />}
+                </div>
+                <div className="roadmap-bar-bg"><div className="roadmap-bar-fill" style={{ width: `${rm.percentage}%` }}></div></div>
+                <button className="delete-roadmap-btn" onClick={(e) => deleteRoadmap(e, rm.id)}>
+                  <img src="/delete.png" alt="delete" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </aside>
+
+        {/* MAIN CONTENT AREA */}
+        <main className="main-content">
+          {viewRoadmap && currentRoadmap && (
+            <div className="roadmap-viewer">
+
+
+
+              <div className="tasks-container">
+                <div className="controler">
+                <header className="roadmap-header">
+
+
+                  <div className="metrics-row">
+                    <div className="metric-box bg-purple">
+                      <span>Progress</span>
+                      <h2>{currentRoadmap.percentage}%</h2>
+                    </div>
+                    <div className="metric-box bg-green">
+                      <span>Completed</span>
+                      <h2>{currentRoadmap.completedCont} Tasks</h2>
+                    </div>
+                    <div className="metric-box bg-blue">
+                      <span>Pending</span>
+                      <h2>{currentRoadmap.onProgress} Tasks</h2>
+                    </div>
+                  </div>
+                </header>
+                <div className="title-group">
+                  <h1>{currentRoadmap.name}</h1>
+                  <button onClick={() => setShowShareModal(true)} className="share-btn"><img src="/share.png" alt="" /> Share</button>
+                </div>
+                </div>
+                {currentRoadmap.tasks.map((task) => (
+                  <div key={task.id} className={`task-card ${task.completed ? 'completed-card' : ''}`}>
+                    <div className="task-header">
+                      <div className="task-title" onClick={() => viewSubTasks(task.id)}>
+                        <span className={`collapse-icon ${multiple.includes(task.id) ? 'open' : ''}`}>▶</span>
+                        <h3>{task.name}</h3>
+                      </div>
+                      <div className="task-actions">
+                        <button onClick={() => taskCompleted(task.id)} className={`check-btn ${task.completed ? 'checked' : ''}`}>
+                          {task.completed ? '✔ Done' : 'Complete'}
+                        </button>
+                        <button onClick={() => deleteTask(task.id)} className="icon-btn">🗑</button>
+                      </div>
+                    </div>
+
+                    {multiple.includes(task.id) && (
+                      <div className="subtasks-container">
+                        {task.subtasks.map((sub) => (
+                          <div key={sub.id} className="subtask-row">
+                            <label className="checkbox-label">
+                              <input type="checkbox" checked={sub.completed} onChange={() => subtaskCompleted(task.id, sub.id)} />
+                              <span className={sub.completed ? "crossed" : ""}>{sub.name}</span>
+                            </label>
+                            <button onClick={() => deleteSubTask(task.id, sub.id)} className="icon-btn-small">🗑</button>
                           </div>
+                        ))}
+                        <div className="add-subtask-row">
+                          <input type="text" value={subTaskInput} onChange={(e) => setSubTaskInput(e.target.value)} placeholder="New sub-task..." onKeyDown={(e) => e.key === "Enter" && addSubTask(task.id)} />
+                          <button onClick={() => addSubTask(task.id)} className="add-plus-btn">+</button>
                         </div>
-                        <img src="dashboard.png" alt="" />
                       </div>
                     )}
+                  </div>
+                ))}
 
+                <div className="add-task-card">
+                  <input type="text" value={taskInput} onChange={(e) => setTaskInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addTask()} placeholder="Enter a new primary task..." />
+                  <button onClick={addTask} className="btn-primary">Add Task</button>
+                </div>
 
-                    <div className="progresspar completed">
-                      <div className="progress-info">
-                        <h3>Completed Tasks</h3>
-                        <div className="progress-percentage">
-                          <h1>{currentRoadmap.completedCont}</h1><h3>Task</h3>
-                        </div>
-                      </div>
-                      <img src="done.png" alt="" />
-                    </div>
-
-                    <div className="progresspar on-progress">
-                      <div className="progress-info">
-                        <h3>On Progress</h3>
-                        <div className="progress-percentage">
-                          <h1>{currentRoadmap.onProgress}</h1><h3>Task</h3>
-                        </div>
-                      </div>
-                      <img src="hourglass.png" alt="" />
-                    </div>
-
-
-
-                    <div className="tasks-manager ">
-                      <div className="name">
-                        <h1>{currentRoadmap.name}</h1>
-                      </div>
-
-                      {currentRoadmap.tasks.map((task) => (
-                        <div key={task.id}>
-                          <div
-                            className={task.completed ? "completed-task" : "task"}
-                          >
-                            <button
-                              onClick={() => viewSubTasks(task.id)}
-                              className="arrow-btn"
-                            >
-                              <img
-                                src={
-                                  multiple.indexOf(task.id) !== -1
-                                    ? "down.png"
-                                    : "right-arrow.png"
-                                }
-                                alt=""
-                              />
-                            </button>
-                            <h3>{task.name}</h3>
-                            <button
-                              onClick={() => taskCompleted(task.id)}
-                              className="task-check-btn"
-                            >Done<div
-                              className={
-                                task.completed ? "img-btn-completed" : "img-btn"
-                              }
-                            >
-                                <img src="check.png" alt="" />
-                              </div>
-                            </button>
-                            <button
-                              className="delete-btn task-del"
-                              onClick={() => deleteTask(task.id)}
-                            ><img src="delete.png" alt="" /></button>
-                          </div>
-
-                          {multiple.indexOf(task.id) !== -1 && (
-                            <div className="sub-tasks">
-                              <ul>
-                                {task.subtasks.map((sub) => (
-                                  <li key={sub.id}>
-                                    <div className="sub-task-name">{sub.name}</div>
-                                    <input
-                                      checked={sub.completed}
-                                      onChange={() => subtaskCompleted(task.id, sub.id)}
-                                      type="checkbox"
-                                    />
-                                    <button
-                                      className="delete-btn subtask-del"
-                                      onClick={() => deleteSubTask(task.id, sub.id)}
-                                    ><img src="delete.png" alt="" /></button>
-                                  </li>
-                                ))}
-
-                                <li className="new-sub-task">
-                                  <input
-                                    value={subTaskInput}
-                                    onChange={(e) =>
-                                      setSubTaskInput(e.target.value)
-                                    }
-                                    type="text"
-                                    placeholder="Enter sub Task"
-                                    onKeyDown={(e) => {
-                                      if (e.key === "Enter") {
-                                        addSubTask(task.id);
-                                      }
-                                    }}
-                                  />
-                                  <button onClick={() => addSubTask(task.id)}>
-                                    +
-                                  </button>
-                                </li>
-                              </ul>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-
-                      <div className="task add-task">
-                        <input
-                          value={taskInput}
-                          onChange={(e) => setTaskInput(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") addTask();
-                          }}
-                          type="text"
-                          placeholder="Enter Task..."
-                        />
-                        <button onClick={addTask}>Add Task</button>
-                      </div>
-                      {currentRoadmap && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            RoadmapDone(currentRoadmap.id)
-                          }}
-                          className="final-btn"
-                        >Roadmap Completed</button>
-                      )}
-                    </div>
-                  </>
-                </>
-              )}
-            </>
+                {!currentRoadmap.completed && currentRoadmap.percentage === 100 && (
+                  <button onClick={() => RoadmapDone(currentRoadmap.id)} className="roadmap-completed-btn">🎉 Mark Roadmap as Done!</button>
+                )}
+              </div>
+            </div>
           )}
 
           {newRoadmap && (
-            <div className="tasks-manager">
-              <div className="name">
-                <div className="new-roadmap">
-                  <h1>New Roadmap</h1>
-                </div>
-                <div className="name-Input">
-                  <input
-                    type="text"
-                    placeholder="Enter Your Roadmap Title.."
-                    value={roadmapName}
-                    onChange={(e) => setRoadmapName(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        addroadmap();
-                      }
-                    }}
-                  />
+            <div className="new-roadmap-view">
+              <div className="setup-box">
+                <h1>Launch a New Journey</h1>
+                <p>Turn ambitions into actionable steps. Give your roadmap a title to begin.</p>
+                <div className="input-group">
+                  <input type="text" placeholder="e.g. Learn System Design..." value={roadmapName} onChange={(e) => setRoadmapName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && addroadmap()} />
+                  <button onClick={addroadmap} className="btn-primary">Create Roadmap</button>
                 </div>
               </div>
-              <div className="task">
-                <h3>Turn your ambition into a clear, achievable roadmap — start now</h3>
-              </div>
-              <button
-                className="final-btn"
-                onClick={() => {
-                  addroadmap();
-                }}
-              >
-                Create Your Roadmap
-              </button>
             </div>
           )}
-        </div>
-
-
-        <footer className="footer">
-          <h2
-            ref={aboutref}
-          >GoalRoutes</h2>
-          <p>
-            Transform your ambitions into reality. Track your growth, celebrate your achievements,
-            and stay motivated every step of the way.
-          </p>
-
-          <div className="social-icons">
-            <a href="mailto:safsafrwanda2006@gmail.com"><img src="email.png" alt="Email" /></a>
-            <a href="http://wa.me/250794101251" target="_blank"><img src="whatsapp.png" alt="WhatsApp" /></a>
-            <a href="https://www.facebook.com/mustfa.khamis.2025/"><img src="facebook.png" alt="GitHub" /></a>
-            <a href="https://www.instagram.com/safsaf3469/"><img src="instgram.png" alt="LinkedIn" /></a>
-          </div>
-
-          <p className="footer-note">
-            © 2025 GoalRoutes. All rights reserved. | Developed by.
-            <a className='Mustafa' href="https://safsafrwanda2006.github.io/Protfolio/" target="_blank"> <u>Mustafa Khamis</u></a>
-          </p>
-        </footer>
+        </main>
       </div>
-    </>
+    </div>
   );
 }
 

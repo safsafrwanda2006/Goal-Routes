@@ -15,6 +15,7 @@ function Login() {
       .post("http://localhost:8080/login", values)
       .then((res) => {
         if (res.data.Status === "Success") {
+          localStorage.setItem("userId", res.data.userId);
           navigate("/taskspage");
         } else {
           alert(res.data.Error);

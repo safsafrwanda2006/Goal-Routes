@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
+import "./Register.css";
 import axios from "axios";
 
 function Register() {
@@ -17,10 +17,12 @@ function Register() {
       .post("http://localhost:8080/register", values)
       .then((res) => {
         if (res.data.Status === "Success") {
-          navigate("/login");
-          console.log(res);
+          localStorage.setItem("userId", res.data.userId);
+          navigate("/taskspage");
+        } else {
+           console.log(res);
+           alert(res.data.Error || "Registration Failed");
         }
-        console.log(res);
       })
       .catch((err) => console.log(err));
   };

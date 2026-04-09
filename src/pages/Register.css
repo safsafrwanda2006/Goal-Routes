@@ -1,0 +1,27 @@
+/* Register.css — reuses Login.css as base; add Register-specific overrides here */
+@import url('./Login.css');
+
+/* ── Register card is slightly taller — allow scroll on tiny screens ── */
+form {
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+form::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Subtitle under heading ───────────────────────────────── */
+form .form-subtitle {
+  margin: -8px 0 4px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.50);
+}
+
+/* ── Divider helper (optional) ────────────────────────────── */
+.form-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 4px 0;
+}

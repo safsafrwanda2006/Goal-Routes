@@ -1,253 +1,463 @@
-@media (max-width: 1024px) and (min-width: 668px) {
-
- 
-  .header {
-    padding: 15px 20px;
+/* ═══════════════════════════════════════════════════
+   TABLET  (≤ 1024px, > 668px)
+═══════════════════════════════════════════════════ */
+@media (max-width: 1024px) and (min-width: 669px) {
+  .header-dashboard {
+    padding: 12px 20px;
   }
 
-  .logo {
-    margin: 0;
-    margin-left: 50px;
-    font-size: 14px;
+  .sidebar {
+    width: 240px;
   }
 
-  .logo-par h1 {
-    font-size: 32px;
+  .metrics-row {
+    width: 100%;
+    gap: 12px;
   }
 
-
-  .par {
-    width: 110px;
-    padding: 70px 20px 40px 20px;
+  .metric-box h2 {
+    font-size: 1.8rem;
   }
 
-  .roadmaps-btns button,
-  .roadmaps-btns-clicked button,
-  .new-roadmap-btn {
-    width: 140px;
-    font-size: 13px;
+  .title-group h1 {
+    font-size: 1.8rem;
   }
 
- 
-  .tasks-container {
-    padding: 90px 5% 1em 5%;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "progress completed"
-      "on-progress on-progress"
-      "tasks tasks";
-  }
-
-  .progresspar {
+  .controler {
     gap: 30px;
-    padding: 20px 10px;
+    margin-top: 20px;
   }
 
-  .progresspar img {
-    width: 60px;
-    height: 60px;
+  .roadmap-header {
+    margin-top: 0;
   }
-
-  .progress-percentage {
-    width: 120px;
-  }
-
-  .tasks-manager {
-    padding: 0px 5% 40px 5%;
-  }
-
-  .task,
-  .completed-task {
-    padding: 5px 20px;
-    height: auto;
-  }
-
-  .sub-tasks li {
-    max-width: 70%;
-    font-size: 16px;
-  }
-
-  .name-Input {
-    width: 80%;
-  }
-
-  .add-task input {
-    font-size: 16px;
-  }
-
-  button {
-    min-height: 40px;
-  }
-
-  input[type="checkbox"] {
-    transform: scale(1.3);
-  }
-
 }
 
 
+/* ═══════════════════════════════════════════════════
+   MOBILE  (≤ 668px)
+═══════════════════════════════════════════════════ */
+@media (max-width: 668px) {
 
-@media (max-width: 600px) {
-  .tasks-container {
-    padding: 100px 3px 0px 3px;
-    gap: 0.5em;
+  /* ── Overall container ─────────────────────────── */
+  .taskpcontainer {
+    height: 100dvh; /* use dynamic viewport on mobile browsers */
+    overflow: hidden;
   }
-  .message{
-    top: 60px;
-    left: 6px;
-    margin-left: 10px;
+
+  /* ── Header: single compact row ───────────────── */
+  .header-dashboard {
+    padding: 10px 14px;
+    height: auto;
+    min-height: 56px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
   }
-  .header {
-    min-width: 100vw;
+
+  .logo img {
+    width: 24px;
+    height: 24px;
   }
+
   .logo {
-    margin-left: 60px;
-    margin-right: 0px;
+    font-size: 16px;
+    gap: 6px;
   }
-  .sidpar-btn img {
-    width: 25px;
-    height: 25px;
+
+  /* Header actions: compact side by side */
+  .header-actions {
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    width: auto;
   }
-  .new-roadmap-btn{
-    margin-top: 20px;
-    margin-bottom: 0px;
+
+  .invite-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 16px;
+    white-space: nowrap;
   }
-  .progresspar {
-    height: 70px;
-    gap: 0px;
-    padding: 20px 10px;
+
+  .profile-toggle {
+    padding: 4px 8px;
+    gap: 6px;
+  }
+
+  .profile-name {
+    font-size: 13px;
+  }
+
+  .avatar-small,
+  .avatar-small-placeholder {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+
+  /* ── Dashboard grid: stack vertically ─────────── */
+  .dashboard-grid {
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  /* ── Sidebar: horizontal scrolling strip ──────── */
+  .sidebar {
+    width: 100%;
+    max-height: none;
+    height: auto;
+    flex-direction: column;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 0 6px;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+
+  .sidebar-header {
+    padding: 0 12px 8px;
+  }
+
+  .new-roadmap-primary {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    border-radius: 10px;
+  }
+
+  .sidebar-title {
+    padding: 0 12px 6px;
+    font-size: 0.72rem;
+    letter-spacing: 0.8px;
+  }
+
+  /* Roadmap list: horizontal scroll row */
+  .roadmaps-list {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 8px;
+    padding: 0 12px 6px;
+    scrollbar-width: none;
+  }
+
+  .roadmaps-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .roadmap-list-item {
+    flex-shrink: 0;
+    width: 150px;
+    padding: 10px 12px;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .roadmap-list-item.active {
+    background: rgba(56, 189, 248, 0.08);
+    border-bottom-color: #38bdf8;
+  }
+
+  .roadmap-title-row {
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  .roadmap-bar-bg {
+    height: 4px;
+  }
+
+  /* delete btn always visible on mobile (no hover) */
+  .delete-roadmap-btn {
+    position: static;
+    opacity: 0.5;
+    display: inline-flex;
+    margin-top: 6px;
+  }
+
+  .delete-roadmap-btn img {
+    width: 13px;
+  }
+
+  /* ── Main content ──────────────────────────────── */
+  .main-content {
+    flex: 1;
+    padding: 12px 0 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── Fix the killer 200px gap ─────────────────── */
+  .controler {
+    gap: 16px;
+    margin-top: 0;
+  }
+
+  .roadmap-header {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  /* ── Metrics row: 3 compact pill cards ────────── */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    width: 100%;
+    padding: 0 12px;
+  }
+
+  .metric-box {
+    padding: 12px 10px;
+    border-radius: 12px;
+    gap: 3px;
+  }
+
+  .metric-box span {
+    font-size: 0.65rem;
+    letter-spacing: 0.5px;
+  }
+
+  .metric-box h2 {
+    font-size: 1.3rem;
+    line-height: 1.1;
+  }
+
+  /* ── Roadmap title + share button ─────────────── */
+  .title-group {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 0 12px;
+  }
+
+  .title-group h1 {
+    font-size: 1.35rem;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .share-btn {
+    padding: 7px 12px;
+    font-size: 12px;
+    border-radius: 14px;
+    white-space: nowrap;
+  }
+
+  .share-btn img {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ── Tasks container ───────────────────────────── */
+  .tasks-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0 12px 80px; /* bottom padding so last card isn't clipped */
+    gap: 10px;
+  }
+
+  /* ── Task cards ────────────────────────────────── */
+  .task-card {
+    padding: 14px 12px;
+    border-radius: 10px;
+  }
+
+  .task-card:hover {
+    transform: none; /* disable hover lift on touch devices */
+  }
+
+  .task-title h3 {
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  .task-title {
+    flex: 1;
+    min-width: 0;
+    gap: 8px;
+  }
+
+  /* Actions: stack check + delete to avoid overflow */
+  .task-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .check-btn {
+    padding: 5px 12px;
+    font-size: 12px;
+    border-radius: 16px;
+    white-space: nowrap;
+  }
+
+  .icon-btn {
+    font-size: 1rem;
+  }
+
+  /* ── Subtasks ──────────────────────────────────── */
+  .subtasks-container {
+    padding-left: 12px;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .subtask-row {
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+  }
+
+  .checkbox-label {
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .checkbox-label span {
+    font-size: 0.88rem;
+    word-break: break-word;
+  }
+
+  .icon-btn-small {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  .add-subtask-row {
+    gap: 6px;
+  }
+
+  .add-subtask-row input {
+    padding: 8px 10px;
+    font-size: 0.88rem;
+  }
+
+  .add-plus-btn {
+    width: 36px;
+    font-size: 1.2rem;
+  }
+
+  /* ── Add task card ─────────────────────────────── */
+  .add-task-card {
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .add-task-card input {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .add-task-card .btn-primary {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    white-space: nowrap;
     border-radius: 8px;
   }
-  .progress {
-    margin-left: 0px;
-    display: flex;
-    justify-content: stretch;
-  }
-  .progress h1{
-    align-self: flex-end;
-  }
-  .progresspar img {
-    align-self: flex-end;
-    margin-bottom: -8px;
-  }
-  .progress-percentage {
-    width: 50px;
-    height: 100%;
-    padding: 0px;
-    margin-top: 0px;
-  }
-  .percentage-sign{
-    min-height: 70px;
-  }
-  .progresspar img {
-    width: 20px;
-    height: 20px;
-    margin-top: 0px;
-  }
-  .progresspar h3 {
-    font-size: 15px;
-  }
-  .progresspar h1 {
-    font-size: 20px;
+
+  /* ── Completed roadmap button ──────────────────── */
+  .roadmap-completed-btn {
+    margin-top: 20px;
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: 12px;
   }
 
-  .tasks-manager {
-    max-width: 290px;
-    width: 90%;
-    margin-left: 0px;
-    margin-right: 0px;
-    justify-self: center;
+  /* ── Banner ────────────────────────────────────── */
+  .messages-banner {
+    margin: 8px 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+    gap: 8px;
   }
-  .name-Input {
-    width: 80%;
+
+  /* ── New roadmap "launch" view ─────────────────── */
+  .new-roadmap-view {
+    padding: 20px 16px;
+    align-items: flex-start;
+    padding-top: 40px;
   }
-  .name-Input input {
-    font-size: small;
-  }
-  .name h1 {
-    font-size: 30px;
-  }
-  .task {
-    padding: 3px 5px;
-  }
-  .task h1 {
-    font-size: 20px;
-  }
-  .task h3 {
-    font-size: 14px;
-  }
-  .completed-task {
-    padding: 3px 5px;
-  }
-  .completed-task h3 {
-    font-size: 14px;
-  }
-  .task-check-btn {
-    width: 100px;
-    font-size: smaller;
-  }
-  .img-btn {
-    width: 30px;
-    height: 15px;
-    gap: 0px;
-  }
-  .img-btn-completed {
-    width: 30px;
-    height: 15px;
-  }
-  .arrow-btn {
-    width: 10px;
-    margin-right: 0px;
-  }
-  .arrow-btn img {
-    width: 16px;
-    height: 16px;
-  }
-  .task-del {
-    width: 20px;
-    height: 20px;
-    margin: 0px;
-  }
-  .task-del img {
-    width: 20px;
-    height: 20px;
-  }
-  .add-task input {
-    height: 35px;
-    padding: 0px 7px;
-    font-size: 14px;
-    border-radius: 5px 0px 0px 5px;
-  }
-  .add-task button {
-    height: 35px;
-    font-size: 10px;
-    border-radius: 0px 5px 5px 0px;
-  }
-  .sub-tasks li {
-    margin: 5px;
-    font-weight: 400;
+
+  .setup-box {
     max-width: 100%;
+    text-align: left;
   }
-  .subtask-del {
-    width: 15px;
-    height: 15px;
+
+  .setup-box h1 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
   }
-  .subtask-del img {
-    width: 15px;
-    height: 15px;
+
+  .setup-box p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
   }
-  .new-sub-task input {
-    font-size: 14px;
-    max-width: 78%;
-    border-radius: 3px 0px 3px 0px;
+
+  .input-group {
+    gap: 10px;
   }
-  .new-sub-task button {
-    border-radius: 0px 3px 3px 0px;
+
+  .input-group input {
+    padding: 13px;
+    font-size: 1rem;
+    border-radius: 10px;
   }
-  input[type="checkbox"] {
-    transform: scale(1);
+
+  .input-group .btn-primary {
+    padding: 13px;
+    font-size: 1rem;
+    border-radius: 10px;
   }
-  .sub-tasks {
-    font-size: 16px;
+
+  /* ── Modal ─────────────────────────────────────── */
+  .modal-content {
+    max-width: calc(100vw - 24px);
+    padding: 22px 18px;
+    border-radius: 14px;
+    gap: 12px;
+  }
+
+  .modal-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .modal-content input {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .avatar-large,
+  .avatar-large-placeholder {
+    width: 80px;
+    height: 80px;
+    font-size: 2.2rem;
+  }
+
+  .btn-primary,
+  .close-btn,
+  .logout-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
   }
 }

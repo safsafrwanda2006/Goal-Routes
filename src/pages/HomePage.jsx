@@ -10,14 +10,9 @@ function HomePage() {
   const [isSliding, setIsSliding] = useState(false);
   const [auth, setAuth] = useState(false);
   useEffect(() => {
-    axios
-      .get("http://localhost:8080")
-      .then((res) => {
-        setAuth(true);
-      })
-      .catch((err) => {
-        return console.log(err);
-      });
+    if (localStorage.getItem("userId")) {
+      setAuth(true);
+    }
   }, []);
 
   function viewabout() {
