@@ -38,19 +38,19 @@ function Taskspage() {
     }
 
     // Fetch Roadmaps
-    axios.get(`http://localhost:8080/roadmaps/${userId}`)
+    axios.get(`https://goal-routes-backend.onrender.com/roadmaps/${userId}`)
       .then(res => {
         if (res.data) setRoadmaps(res.data);
       })
       .catch(err => console.error("Failed to fetch roadmaps", err));
 
     // Fetch User Profile
-    axios.get(`http://localhost:8080/users/${userId}`)
+    axios.get(`https://goal-routes-backend.onrender.com/users/${userId}`)
       .then(res => setUserProfile(res.data))
       .catch(err => console.error("Failed to fetch profile", err));
 
     // Fetch Pending Shares
-    axios.get(`http://localhost:8080/roadmaps/shared/${userId}`)
+    axios.get(`https://goal-routes-backend.onrender.com/roadmaps/shared/${userId}`)
       .then(res => setPendingShares(res.data))
       .catch(err => console.error("Failed to fetch shares", err));
   }, [navigate]);
@@ -62,7 +62,7 @@ function Taskspage() {
         roadmaps.forEach(rm => {
           const prevRm = prevRoadmapsRef.current.find(p => p.id === rm.id);
           if (prevRm && JSON.stringify(rm) !== JSON.stringify(prevRm)) {
-            axios.put(`http://localhost:8080/roadmaps/${rm.id}`, rm).catch(err => console.error("Update failed", err));
+            axios.put(`https://goal-routes-backend.onrender.com/roadmaps/${rm.id}`, rm).catch(err => console.error("Update failed", err));
           }
         });
       }
@@ -98,7 +98,7 @@ function Taskspage() {
     const formData = new FormData();
     formData.append("image", profileImageFile);
     try {
-      const res = await axios.post(`http://localhost:8080/users/${userId}/image`, formData);
+      const res = await axios.post(`https://goal-routes-backend.onrender.com/users/${userId}/image`, formData);
       setUserProfile(prev => ({ ...prev, profile_image: res.data.profile_image }));
       setShowProfileModal(false);
     } catch (e) {
@@ -111,7 +111,7 @@ function Taskspage() {
     if (!shareEmail) return;
     const userId = localStorage.getItem("userId");
     try {
-      await axios.post("http://localhost:8080/roadmaps/share", {
+      await axios.post("https://goal-routes-backend.onrender.com/roadmaps/share", {
         roadmapId: currentRoadmapId,
         senderId: userId,
         receiverEmail: shareEmail
@@ -128,10 +128,10 @@ function Taskspage() {
   const acceptShare = async (shareId) => {
     const userId = localStorage.getItem("userId");
     try {
-      await axios.post(`http://localhost:8080/roadmaps/shared/${shareId}/accept`, { userId });
+      await axios.post(`https://goal-routes-backend.onrender.com/roadmaps/shared/${shareId}/accept`, { userId });
       alert("Imported Roadmap Successfully!");
       setPendingShares(prev => prev.filter(s => s.share_id !== shareId));
-      const freshRes = await axios.get(`http://localhost:8080/roadmaps/${userId}`);
+      const freshRes = await axios.get(`https://goal-routes-backend.onrender.com/roadmaps/${userId}`);
       setRoadmaps(freshRes.data);
     } catch (e) {
       console.error(e);
@@ -194,7 +194,7 @@ function Taskspage() {
       tasks: [],
     };
     try {
-      await axios.post("http://localhost:8080/roadmaps", newRoadmap);
+      await axios.post("https://goal-routes-backend.onrender.com/roadmaps", newRoadmap);
       setRoadmaps((prev) => [...prev, newRoadmap]);
       setCurrentRoadmapId(newRoadmap.id);
       setRoadmapName("");
@@ -213,7 +213,7 @@ function Taskspage() {
       setNewRoadmap(true);
       setViewRoadmap(false);
     }
-    axios.delete(`http://localhost:8080/roadmaps/${id}`).catch(console.error);
+    axios.delete(`https://goal-routes-backend.onrender.com/roadmaps/${id}`).catch(console.error);
   }
 
   function addTask() {
