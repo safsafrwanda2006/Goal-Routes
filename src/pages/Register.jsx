@@ -14,7 +14,7 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:8080/register", values)
+      .post("https://goal-routes-backend.onrender.com/register", values)
       .then((res) => {
         if (res.data.Status === "Success") {
           localStorage.setItem("userId", res.data.userId);
