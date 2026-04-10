@@ -12,7 +12,7 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:8080/login", values)
+      .post("https://goal-routes-backend.onrender.com/login", values)
       .then((res) => {
         if (res.data.Status === "Success") {
           localStorage.setItem("userId", res.data.userId);
